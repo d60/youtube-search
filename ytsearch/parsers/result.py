@@ -56,5 +56,7 @@ def parse_response(response, next):
     except KeyError:
         contents = extract_continuation_items(response)
     items = contents[0]['itemSectionRenderer']['contents']
-    continuation = extract_continuation(contents[1])
+    continuation = None
+    if len(contents) > 1:
+        continuation = extract_continuation(contents[1])
     return Result(items, next, continuation)

@@ -39,7 +39,7 @@ class Search:
         self,
         query: str | None = None,
         duration: DURATION_KEYS | None = None,
-        features: FEATURES_KEYS | None = None,
+        features: list[FEATURES_KEYS] | None = None,
         sort_by: SORT_BY_KEYS | None = None,
         upload_date: UPLOAD_DATE_KEYS | None = None,
         continuation: str | None = None

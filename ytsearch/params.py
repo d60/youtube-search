@@ -51,13 +51,19 @@ UPLOAD_DATE_KEYS = Literal['Last hour', 'This month', 'This week', 'This year', 
 
 
 def build_search_params(duration, features, sort_by, type, upload_date) -> str:
-    keys = (duration, features, sort_by, type, upload_date)
-    mappings = (DURATION, FEATURES, SORT_BY, TYPE, UPLOAD_DATE)
     filters = []
-    for key, mapping in zip(keys, mappings):
+
+    def add_filter(key, mapping):
         if key is None:
-            continue
+            return
         if key not in mapping:
             raise ValueError(f'Invalid key: {key}')
         filters.append(mapping[key])
+
+    add_filter(duration, DURATION)
+    for feature in features or []:
+        add_filter(feature, FEATURES)
+    add_filter(sort_by, SORT_BY)
+    add_filter(type, TYPE)
+    add_filter(upload_date, UPLOAD_DATE)
     return b64encode(b''.join(filters)).decode()
